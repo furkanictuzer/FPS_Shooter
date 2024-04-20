@@ -5,7 +5,8 @@ public class PlayerMovementController : MonoBehaviour
 {
         [SerializeField] private PlayerGroundController groundController;
         [Space]
-        [SerializeField] private float speed = 12f;
+        [SerializeField] private float speed = 8f;
+        [SerializeField] private float sprintSpeed = 12f;
         [SerializeField] private float gravity = -9.81f * 2;
         [SerializeField] private float jumpHeight = 3f;
         
@@ -13,11 +14,29 @@ public class PlayerMovementController : MonoBehaviour
         
         [SerializeField] private Vector3 _velocity;
         private Vector3 _lastPosition;
-        
-        public bool IsMoving { get; private set; }
+
+        public event Action<bool> IsMovingChanged;
+
+        public bool IsMoving
+        {
+                get => _isMoving;
+                private set
+                {
+                        if (IsMoving != value)
+                        {
+                                IsMovingChanged?.Invoke(value);
+                        }
+
+                        _isMoving = value;
+                }
+        }
+
+        private bool _isMoving;
 
         private bool IsGrounded => groundController.IsGrounded;
 
+        private float _speedToUse;
+        
         public float Speed
         { 
                 get
@@ -31,6 +50,7 @@ public class PlayerMovementController : MonoBehaviour
         private void Awake()
         {
                 _characterController = GetComponent<CharacterController>();
+                _speedToUse = speed;
         }
 
         private void Start()
@@ -54,6 +74,16 @@ public class PlayerMovementController : MonoBehaviour
                 _characterController.Move(_velocity * Time.deltaTime);
         }
 
+        private void OnSprintButtonDown()
+        {
+                _speedToUse = sprintSpeed;
+        }
+
+        private void OnSprintButtonUp()
+        {
+                _speedToUse = speed;
+        }
+
         private void Move()
         {
                 if (IsGrounded && _velocity.y < 0)
@@ -69,7 +99,7 @@ public class PlayerMovementController : MonoBehaviour
                 _velocity.x = moveDirection.x;
                 _velocity.z = moveDirection.z;
                 
-                _characterController.Move(moveDirection * speed * Time.deltaTime);
+                _characterController.Move(moveDirection * _speedToUse * Time.deltaTime);
                 
                 if (_lastPosition != transform.position && IsGrounded)
                 {

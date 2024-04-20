@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8932359643574635662}
   - component: {fileID: 2837230190724242926}
   - component: {fileID: 38985671941688641}
+  - component: {fileID: 5477317440437675271}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -104,10 +105,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundController: {fileID: 1142096590953445202}
-  speed: 12
+  speed: 8
+  sprintSpeed: 12
   gravity: -19.62
   jumpHeight: 1.5
   _velocity: {x: 0, y: 0, z: 0}
+--- !u!114 &5477317440437675271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2846425030623239802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23b4a0440b4c5c43b507897f27f4adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firingPoint: {fileID: 1447503123027429293}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  fireDistance: 50
 --- !u!1 &4533532688613697115
 GameObject:
   m_ObjectHideFlags: 0

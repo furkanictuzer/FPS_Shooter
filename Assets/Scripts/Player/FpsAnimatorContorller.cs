@@ -22,6 +22,8 @@ public class FpsAnimatorContorller : MonoBehaviour
         InputController.instance.OnShootingStarted += ShootingStarted;
         InputController.instance.OnShootingStopped += ShootingStopped;
         InputController.instance.OnReloadStarted += ReloadStarted;
+        
+        playerMovementController.IsMovingChanged += SetIsMoving;
     }
 
     private void OnDestroy()
@@ -29,6 +31,8 @@ public class FpsAnimatorContorller : MonoBehaviour
         InputController.instance.OnShootingStarted -= ShootingStarted;
         InputController.instance.OnShootingStopped -= ShootingStopped;
         InputController.instance.OnReloadStarted -= ReloadStarted;
+        
+        playerMovementController.IsMovingChanged -= SetIsMoving;
     }
 
     private void Update()
@@ -36,7 +40,6 @@ public class FpsAnimatorContorller : MonoBehaviour
         if (playerMovementController != null)
         {
             SetSpeed(playerMovementController.Speed);
-            SetIsMoving(playerMovementController.IsMoving);
         }
 
         if (groundController != null)
