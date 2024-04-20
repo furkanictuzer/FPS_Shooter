@@ -11,23 +11,47 @@ public class PlayerMovementController : MonoBehaviour
         
         private CharacterController _characterController;
         
-        private Vector3 _velocity;
+        [SerializeField] private Vector3 _velocity;
         private Vector3 _lastPosition;
         
-        private bool _isMoving;
+        public bool IsMoving { get; private set; }
 
         private bool IsGrounded => groundController.IsGrounded;
+
+        public float Speed
+        { 
+                get
+                {
+                        Vector2 velocity = new Vector2(_velocity.x, _velocity.z);
+
+                        return velocity.magnitude;
+                }
+        }
 
         private void Awake()
         {
                 _characterController = GetComponent<CharacterController>();
         }
 
+        private void Start()
+        {
+                InputController.instance.OnJumpPressed += Jump;
+        }
+
+        private void OnDestroy()
+        {
+                InputController.instance.OnJumpPressed -= Jump;
+        }
+
         private void Update()
         {
                 Move();
                 
-                CheckJump();
+                //Falling down
+                _velocity.y += gravity * Time.deltaTime;
+
+                //Jump
+                _characterController.Move(_velocity * Time.deltaTime);
         }
 
         private void Move()
@@ -39,36 +63,31 @@ public class PlayerMovementController : MonoBehaviour
 
                 float x = Input.GetAxis("Horizontal");
                 float z = Input.GetAxis("Vertical");
-
+                
                 Vector3 moveDirection = transform.right * x + transform.forward * z;
 
+                _velocity.x = moveDirection.x;
+                _velocity.z = moveDirection.z;
+                
                 _characterController.Move(moveDirection * speed * Time.deltaTime);
                 
                 if (_lastPosition != transform.position && IsGrounded)
                 {
-                        _isMoving = true;
+                        IsMoving = true;
                 }
                 else
                 {
-                        _isMoving = false;
+                        IsMoving = false;
                 }
 
                 _lastPosition = transform.position;
         }
 
-        private void CheckJump()
+        private void Jump()
         {
-                //Check if player can jump
-                if (Input.GetButtonDown("Jump") && IsGrounded)
-                {
+                if (IsGrounded)
+                { 
                         _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 }
-                //Falling down
-                _velocity.y += gravity * Time.deltaTime;
-
-                //Jump
-                _characterController.Move(_velocity * Time.deltaTime);
-
-                
         }
 }
