@@ -9,15 +9,18 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5689148265706395035}
+  - component: {fileID: 2965884975285330348}
+  - component: {fileID: 5564726987310186631}
   - component: {fileID: 2924269708560317288}
   - component: {fileID: 8932359643574635662}
   - component: {fileID: 2837230190724242926}
   - component: {fileID: 38985671941688641}
   - component: {fileID: 5477317440437675271}
   - component: {fileID: 1176405783869019703}
-  m_Layer: 0
+  - component: {fileID: 5512761465365309329}
+  m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,6 +43,56 @@ Transform:
   - {fileID: 326918228760151381}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &2965884975285330348
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2846425030623239802}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!136 &5564726987310186631
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2846425030623239802}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &2924269708560317288
 CharacterController:
   m_ObjectHideFlags: 0
@@ -84,6 +137,7 @@ MonoBehaviour:
   playerMovementController: {fileID: 38985671941688641}
   groundController: {fileID: 1142096590953445202}
   playerFiringController: {fileID: 5477317440437675271}
+  playerCollectController: {fileID: 5512761465365309329}
 --- !u!114 &2837230190724242926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +204,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadKeyCode: 114
   sprintKeyCode: 304
+--- !u!114 &5512761465365309329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2846425030623239802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07f37949abc150e46a0affdf2a279368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 8932359643574635662}
 --- !u!1 &4533532688613697115
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,6 +486,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arm3
       objectReference: {fileID: 0}
+    - target: {fileID: 5814103664039390851, guid: e4958e35e46f18944acdc7a26eb655e4,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b7a0576239edd2f40aab00affd5d8247, type: 2}
+    - target: {fileID: 5814103664039390851, guid: e4958e35e46f18944acdc7a26eb655e4,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b7a0576239edd2f40aab00affd5d8247, type: 2}
+    - target: {fileID: 5814103664039390851, guid: e4958e35e46f18944acdc7a26eb655e4,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b7a0576239edd2f40aab00affd5d8247, type: 2}
+    - target: {fileID: 5814103664039390851, guid: e4958e35e46f18944acdc7a26eb655e4,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b7a0576239edd2f40aab00affd5d8247, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -507,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magazine: {fileID: 6004630445930027797}
-  spareBullet: 20
+  spareBulletAmount: 20
 --- !u!114 &6004630445930027797
 MonoBehaviour:
   m_ObjectHideFlags: 0
