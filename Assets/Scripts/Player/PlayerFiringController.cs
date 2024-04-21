@@ -39,16 +39,19 @@ public class PlayerFiringController : MonoBehaviour
         gun.Reload();
     }
 
+    public void AddBullet(int amount, out int residualAmmoAmount)
+    {
+        gun.AddBullet(amount, out residualAmmoAmount);
+    }
+
     public void SetDamageAmount(int newDamageAmount)
     {
         damageAmount = newDamageAmount;
     }
 
-    public void SetFiringParameters(int newDamageAmount, int ammoCapacity, int newPierceShot)
+    public void SetPierceShot(int newPierceShot)
     {
         _pierceShot = newPierceShot;
-        damageAmount = newDamageAmount;
-        gun.SetSpareBullet(ammoCapacity);
     }
 
     public void Fire()

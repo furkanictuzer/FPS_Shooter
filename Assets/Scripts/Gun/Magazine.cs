@@ -12,6 +12,8 @@ public class Magazine : MonoBehaviour
     public int AmmoCapacity => ammoCapacity;
     public int CurrentBulletAmount => currentBulletAmount;
     public bool HasAmmo => currentBulletAmount > 0;
+
+    public bool IsFull => currentBulletAmount >= ammoCapacity;
     
     public void Reload(ref int bulletAmount)
     {

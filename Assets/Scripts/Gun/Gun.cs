@@ -9,9 +9,12 @@ public class Gun : MonoBehaviour
     [SerializeField] private Magazine magazine;
     
     [SerializeField] private int spareBulletAmount = 20;
-
+    
+    private int _maxAmountOfAmmo = 30;
     public bool HasAmmo => magazine.HasAmmo;
-    public bool CanReload => spareBulletAmount > 0;
+    public bool CanReload => spareBulletAmount > 0 && !magazine.IsFull;
+
+    public int BulletSpaceAmount => _maxAmountOfAmmo - (spareBulletAmount + magazine.CurrentBulletAmount);
     
     private void Start()
     {
@@ -29,9 +32,22 @@ public class Gun : MonoBehaviour
         }
     }
 
-    public void SetSpareBullet(int newSpareBulletAmount)
+    public void AddBullet(int amount, out int residualAmmoAmount)
     {
-        spareBulletAmount = newSpareBulletAmount;
+        int oldSpareAmount = spareBulletAmount;
+        
+        spareBulletAmount = Mathf.Clamp(spareBulletAmount + amount,
+            0,
+            _maxAmountOfAmmo - magazine.CurrentBulletAmount);
+
+        residualAmmoAmount = amount + oldSpareAmount - spareBulletAmount;
+        
+        EventManager.OnTotalBulletAmountChanged(magazine.CurrentBulletAmount, spareBulletAmount);
+    }
+
+    public void SetMaxBullet(int newSpareBulletAmount)
+    {
+        _maxAmountOfAmmo = newSpareBulletAmount;
     }
     
     public void Reload()

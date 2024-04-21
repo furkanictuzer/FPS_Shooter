@@ -6,19 +6,24 @@ using UnityEngine;
 
 public class DamageableObject : MonoBehaviour
 {
-    [SerializeField] private int maxHp = 100;
-    [SerializeField] private int minHp = 0;
+    [SerializeField] protected int maxHp = 100;
+    [SerializeField] protected int minHp = 0;
     
     public int CurrentHp { get; private set; }
     
-    public event Action<int> OnTakeDamage;
+    public event Action OnTakeDamage;
     public event Action OnDead;
 
-    public void TakeDamage(int takenDamageAmount)
+    private void Awake()
+    {
+        CurrentHp = maxHp;
+    }
+
+    public virtual void TakeDamage(int takenDamageAmount)
     {
         AddHp(-takenDamageAmount);
         
-        OnTakeDamage?.Invoke(CurrentHp);
+        OnTakeDamage?.Invoke();
         Debug.Log("Object Took Damage(" + takenDamageAmount + "): " + name);
         bool isDead = CheckDead();
 
