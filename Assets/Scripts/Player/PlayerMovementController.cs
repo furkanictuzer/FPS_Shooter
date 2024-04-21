@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMovementController : MonoBehaviour
 {
-        [SerializeField] private PlayerGroundController groundController;
+        [SerializeField] private Player player;
         [Space]
         [SerializeField] private float speed = 8f;
         [SerializeField] private float sprintSpeed = 12f;
@@ -12,7 +13,7 @@ public class PlayerMovementController : MonoBehaviour
         
         private CharacterController _characterController;
         
-        [SerializeField] private Vector3 _velocity;
+        private Vector3 _velocity;
         private Vector3 _lastPosition;
 
         public event Action<bool> IsMovingChanged;
@@ -33,7 +34,7 @@ public class PlayerMovementController : MonoBehaviour
 
         private bool _isMoving;
 
-        private bool IsGrounded => groundController.IsGrounded;
+        private bool IsGrounded => player.GroundController.IsGrounded;
 
         private float _speedToUse;
         
@@ -53,14 +54,20 @@ public class PlayerMovementController : MonoBehaviour
                 _speedToUse = speed;
         }
 
-        private void Start()
+        private void OnEnable()
         {
-                InputController.instance.OnJumpPressed += Jump;
+                player.PlayerInputController.OnJumpPressed += Jump;
+                
+                player.PlayerInputController.OnSprintStarted += OnSprintButtonDown;
+                player.PlayerInputController.OnSprintStopped += OnSprintButtonUp;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-                InputController.instance.OnJumpPressed -= Jump;
+                player.PlayerInputController.OnJumpPressed -= Jump;
+                
+                player.PlayerInputController.OnSprintStarted -= OnSprintButtonDown;
+                player.PlayerInputController.OnSprintStopped -= OnSprintButtonUp;
         }
 
         private void Update()
@@ -72,6 +79,17 @@ public class PlayerMovementController : MonoBehaviour
 
                 //Jump
                 _characterController.Move(_velocity * Time.deltaTime);
+        }
+
+        public void SetSpeedValues(float newWalkSpeed, float newSprintSpeed)
+        {
+                speed = newWalkSpeed;
+                sprintSpeed = newSprintSpeed;
+        }
+
+        public void SetMaxJumpHeight(float newMaxHeight)
+        {
+                jumpHeight = newMaxHeight;
         }
 
         private void OnSprintButtonDown()

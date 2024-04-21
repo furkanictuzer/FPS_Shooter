@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2837230190724242926}
   - component: {fileID: 38985671941688641}
   - component: {fileID: 5477317440437675271}
+  - component: {fileID: 1176405783869019703}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -77,6 +78,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bf4c10f6b75d7043b8805b2b0cf4e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 100
+  minHp: 0
+  playerInputController: {fileID: 1176405783869019703}
+  playerMovementController: {fileID: 38985671941688641}
+  groundController: {fileID: 1142096590953445202}
+  playerFiringController: {fileID: 5477317440437675271}
 --- !u!114 &2837230190724242926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,12 +111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a3e13341a944fd682227cc036dd01f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundController: {fileID: 1142096590953445202}
+  player: {fileID: 8932359643574635662}
   speed: 8
   sprintSpeed: 12
   gravity: -19.62
   jumpHeight: 1.5
-  _velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &5477317440437675271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,11 +128,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b23b4a0440b4c5c43b507897f27f4adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInputController: {fileID: 1176405783869019703}
   firingPoint: {fileID: 1447503123027429293}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
   fireDistance: 50
+  gun: {fileID: 7269099580155425530}
+  damageAmount: 0
+--- !u!114 &1176405783869019703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2846425030623239802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b491eb553c20e44af868bb4ae0ebee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reloadKeyCode: 114
+  sprintKeyCode: 304
 --- !u!1 &4533532688613697115
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +431,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4761441547952383345}
+    - targetCorrespondingSourceObject: {fileID: 4868579935490016500, guid: e4958e35e46f18944acdc7a26eb655e4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7269099580155425530}
+    - targetCorrespondingSourceObject: {fileID: 4868579935490016500, guid: e4958e35e46f18944acdc7a26eb655e4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6004630445930027797}
   m_SourcePrefab: {fileID: 100100000, guid: e4958e35e46f18944acdc7a26eb655e4, type: 3}
 --- !u!4 &326918228760151381 stripped
 Transform:
@@ -455,6 +486,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0e614fd43590c4594b6bae77f01d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovementController: {fileID: 38985671941688641}
-  groundController: {fileID: 1142096590953445202}
+  player: {fileID: 8932359643574635662}
   fpsAnimator: {fileID: 2989680334029156076}
+--- !u!1 &4653169153029318218 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4868579935490016500, guid: e4958e35e46f18944acdc7a26eb655e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 217240514765005502}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7269099580155425530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653169153029318218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f98427df292427b40a366d0bedf227d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magazine: {fileID: 6004630445930027797}
+  spareBullet: 20
+--- !u!114 &6004630445930027797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653169153029318218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2cb1c535d192624d83835724e7990ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoCapacity: 10
+  currentBulletAmount: 0

@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputController : Singleton<InputController>
+public class PlayerInputController : MonoBehaviour
 {
     [SerializeField] private KeyCode reloadKeyCode = KeyCode.R;
     [SerializeField] private KeyCode sprintKeyCode = KeyCode.LeftShift;
+    
     public event Action OnJumpPressed;
     public event Action OnReloadStarted;
-    public event Action OnShootingStarted;
-    public event Action OnShootingStopped;
+    public event Action ShootingStarted;
+    public event Action ShootingStopped;
 
     public event Action OnSprintStarted;
     public event Action OnSprintStopped; 
@@ -27,14 +28,13 @@ public class InputController : Singleton<InputController>
         //Fire button down
         if (Input.GetButtonDown("Fire1"))
         {
-            OnShootingStarted?.Invoke();
+            ShootingStarted?.Invoke();
             Debug.Log("Firing Started");
         }
         //Fire button up
         if (Input.GetButtonUp("Fire1"))
         {
-            OnShootingStopped?.Invoke();
-            Debug.Log("Firing Stopped");
+            OnShootingStopped();
         }
 
         //Sprint button down
@@ -44,7 +44,7 @@ public class InputController : Singleton<InputController>
             Debug.Log("Sprint Started");
         }
         //Sprint button up
-        if (Input.GetKeyDown(sprintKeyCode))
+        if (Input.GetKeyUp(sprintKeyCode))
         {
             OnSprintStopped?.Invoke();
             Debug.Log("Sprint Stopped");
@@ -56,5 +56,11 @@ public class InputController : Singleton<InputController>
             OnReloadStarted?.Invoke();
             Debug.Log("Reload");
         }
+    }
+
+    public void OnShootingStopped()
+    {
+        ShootingStopped?.Invoke();
+        Debug.Log("Firing Stopped");
     }
 }

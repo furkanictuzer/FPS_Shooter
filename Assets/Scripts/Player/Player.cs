@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : DamageableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private PlayerInputController playerInputController;
+    [SerializeField] private PlayerMovementController playerMovementController;
+    [SerializeField] private PlayerGroundController groundController;
+    [SerializeField] private PlayerFiringController playerFiringController;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public PlayerInputController PlayerInputController => playerInputController;
+    public PlayerMovementController PlayerMovementController => playerMovementController;
+    public PlayerGroundController GroundController => groundController;
+    public PlayerFiringController PlayerFiringController => playerFiringController;
 }

@@ -2,34 +2,61 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerFiringController : MonoBehaviour
 {
+    [SerializeField] private PlayerInputController playerInputController;
+    
     [SerializeField] private Transform firingPoint;
     
     [SerializeField] private LayerMask enemyLayer;
     
     [SerializeField] private float fireDistance = 50;
     
+    [SerializeField] private Gun gun;
+
+    [SerializeField] private int damageAmount;
+    
     private Camera _mainCam;
+
+    private int _pierceShot;
+    public bool HasAmmo => gun.HasAmmo;
+    public bool CanReload => gun.CanReload;
 
     private void Awake()
     {
+        if (gun == null)
+        {
+            gun = GetComponentInChildren<Gun>();
+        }
+        
         _mainCam = Camera.main;
     }
 
-    private void Update()
+    public void Reload()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Fire();
-        }
+        gun.Reload();
     }
 
-    private void Fire()
+    public void SetDamageAmount(int newDamageAmount)
+    {
+        damageAmount = newDamageAmount;
+    }
+
+    public void SetFiringParameters(int newDamageAmount, int ammoCapacity, int newPierceShot)
+    {
+        _pierceShot = newPierceShot;
+        damageAmount = newDamageAmount;
+        gun.SetSpareBullet(ammoCapacity);
+    }
+
+    public void Fire()
     {
         Ray ray = new Ray(firingPoint.position, firingPoint.forward);
         bool isHit = Physics.Raycast(ray, out var hitInfo, fireDistance, enemyLayer);
+        
+        gun.Fire();
         
         if (isHit)
         {
@@ -37,6 +64,7 @@ public class PlayerFiringController : MonoBehaviour
 
             if (enemy != null)
             {
+                enemy.TakeDamage(damageAmount);
                 Debug.Log("Hit Enemy");
             }
         }
