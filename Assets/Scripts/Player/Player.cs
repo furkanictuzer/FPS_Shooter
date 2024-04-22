@@ -7,14 +7,16 @@ public class Player : DamageableObject
 {
     [SerializeField] private PlayerInputController playerInputController;
     [SerializeField] private PlayerMovementController playerMovementController;
-    [SerializeField] private PlayerGroundController groundController;
+    [SerializeField] private GroundController groundController;
     [SerializeField] private PlayerFiringController playerFiringController;
     [SerializeField] private PlayerCollectController playerCollectController;
+    [SerializeField] private PlayerLevelController playerLevelController;
     public PlayerInputController PlayerInputController => playerInputController;
     public PlayerMovementController PlayerMovementController => playerMovementController;
-    public PlayerGroundController GroundController => groundController;
+    public GroundController GroundController => groundController;
     public PlayerFiringController PlayerFiringController => playerFiringController;
     public PlayerCollectController PlayerCollectController => playerCollectController;
+    public PlayerLevelController PlayerLevelController => playerLevelController;
 
     private void Start()
     {
@@ -23,18 +25,18 @@ public class Player : DamageableObject
 
     private void OnEnable()
     {
-        OnTakeDamage += SetHpBar;
+        HpAmountChanged += SetHpBar;
     }
 
     private void OnDisable()
     {
-        OnTakeDamage -= SetHpBar;
+        HpAmountChanged -= SetHpBar;
     }
 
     private void SetHpBar()
     {
         float percent = (float)CurrentHp / maxHp;
 
-        HPBarController.instance.SetPercent(percent);
+        UIManager.instance.SetPlayerHp(percent);
     }
 }

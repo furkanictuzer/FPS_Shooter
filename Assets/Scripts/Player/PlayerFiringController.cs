@@ -20,7 +20,7 @@ public class PlayerFiringController : MonoBehaviour
     
     private Camera _mainCam;
 
-    private int _pierceShot;
+    private int _pierceShot = 2;
     public bool HasAmmo => gun.HasAmmo;
     public bool CanReload => gun.CanReload;
 
@@ -56,20 +56,49 @@ public class PlayerFiringController : MonoBehaviour
 
     public void Fire()
     {
-        Ray ray = new Ray(firingPoint.position, firingPoint.forward);
-        bool isHit = Physics.Raycast(ray, out var hitInfo, fireDistance, enemyLayer);
+        Vector3 origin = firingPoint.position;
+        Vector3 direction = firingPoint.forward;
         
+        Ray ray = new Ray(origin, direction);
+
+        RaycastHit[] hits = Physics.RaycastAll(origin, direction, fireDistance, enemyLayer);
+        
+        bool isHit = hits.Length > 0;
         gun.Fire();
         
         if (isHit)
         {
-            Enemy enemy = hitInfo.transform.gameObject.GetComponentInParent<Enemy>();
+            List<Enemy> enemies = GetEnemyList(hits);
 
-            if (enemy != null)
+            foreach (var enemy in enemies)
             {
                 enemy.TakeDamage(damageAmount);
-                Debug.Log("Hit Enemy");
+                Debug.Log("Hit Enemy : " + enemy.name);
             }
         }
+    }
+
+    private List<Enemy> GetEnemyList(RaycastHit[] hits)
+    {
+        List<Enemy> output = new List<Enemy>();
+        
+        foreach (var hitInfo in hits)
+        {
+            if (output.Count < _pierceShot)
+            {
+                Enemy enemy = hitInfo.transform.gameObject.GetComponentInParent<Enemy>();
+
+                if (enemy != null)
+                {
+                    output.Add(enemy);
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return output;
     }
 }

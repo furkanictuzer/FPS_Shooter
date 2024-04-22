@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerRotationController : MonoBehaviour
 {
+    [SerializeField] private GameObject camObj;
     [SerializeField] 
     private float mouseSensitivity=500;
     [Space]
@@ -35,6 +36,6 @@ public class PlayerRotationController : MonoBehaviour
         //Clamping
         _xRotation = Mathf.Clamp(_xRotation, topClamp, bottomClamp);
         
-        transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
+        camObj.transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
     }
 }

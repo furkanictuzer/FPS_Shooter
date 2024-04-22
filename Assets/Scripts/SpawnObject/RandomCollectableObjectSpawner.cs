@@ -1,19 +1,41 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RandomCollectableObjectSpawner : CollectableObjectSpawner
 {
     [SerializeField] private float maxSpawnDistance = 5;
 
+    private CollectableSpawnersController _collectableSpawnersController;
+
+    private void Awake()
+    {
+        _collectableSpawnersController = GetComponentInParent<CollectableSpawnersController>();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, maxSpawnDistance);
+    }
+
     public override void SpawnObject()
     {
-        Vector3 randPosition = GetRandomPosition();
+        Vector3 randPosition = GetRandomLocalPosition();
+        int attempt = 1;
+        
+        while (_collectableSpawnersController.TooCloseToSomeObject(randPosition) && attempt < 5)
+        {
+            randPosition = GetRandomLocalPosition();
+            attempt++;
+        }
 
         SpawnObject(randPosition);
     }
 
-    private Vector3 GetRandomPosition()
+    private Vector3 GetRandomLocalPosition()
     {
         int randomDegree = Random.Range(0, 360);
         float randomRadian = randomDegree * Mathf.Deg2Rad;
@@ -26,4 +48,6 @@ public class RandomCollectableObjectSpawner : CollectableObjectSpawner
 
         return position;
     }
+
+    
 }

@@ -5,9 +5,15 @@ using UnityEngine;
 
 public static class EventManager
 {
+    public static event Action GameStarted;
     public static event Action<int, int> MagazineReloaded;
     public static event Action<int, int> TotalBulletAmountChanged;
 
+    public static void OnGameStarted()
+    {
+        GameStarted?.Invoke();
+    }
+    
     public static void OnMagazineReloaded(int bulletInMagazine, int spareBullet)
     {
         MagazineReloaded?.Invoke(bulletInMagazine, spareBullet);

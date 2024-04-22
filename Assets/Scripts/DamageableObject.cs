@@ -8,19 +8,26 @@ public class DamageableObject : MonoBehaviour
 {
     [SerializeField] protected int maxHp = 100;
     [SerializeField] protected int minHp = 0;
-    
+    [SerializeField,Range(0,1)] protected float initialHpPercent = 1;
     public int CurrentHp { get; private set; }
     
     public event Action OnTakeDamage;
+    public event Action HpAmountChanged;
     public event Action OnDead;
+
+    public bool IsDead { get; private set; }
 
     private void Awake()
     {
-        CurrentHp = maxHp;
+        CurrentHp = (int)(initialHpPercent * maxHp);
     }
 
     public virtual void TakeDamage(int takenDamageAmount)
     {
+        if (IsDead)
+        {
+            return;
+        }
         AddHp(-takenDamageAmount);
         
         OnTakeDamage?.Invoke();
@@ -46,11 +53,19 @@ public class DamageableObject : MonoBehaviour
     private void AddHp(int amount)
     {
         CurrentHp = Mathf.Clamp(CurrentHp + amount, minHp, maxHp);
+        
+        HpAmountChanged?.Invoke();
     }
 
     private void Died()
     {
+        if (IsDead)
+        {
+            return;
+        }
+        
         OnDead?.Invoke();
+        IsDead = true;
         Debug.Log("Object Died: " + name);
     }
 

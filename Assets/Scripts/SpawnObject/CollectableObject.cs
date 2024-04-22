@@ -11,7 +11,7 @@ public abstract class CollectableObject : MonoBehaviour
     public virtual void FullyCollected()
     {
         _spawner?.RemoveObject(this);
-        _spawner?.SpawnObject();
+        _spawner?.SpawnObjectWithDelay(3);
     }
 
     public abstract void Collect(Player player);

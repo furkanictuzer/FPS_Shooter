@@ -4,6 +4,7 @@ using UnityEngine.Serialization;
 
 public class PlayerMovementController : MonoBehaviour
 {
+        [SerializeField] private Transform camObj;
         [SerializeField] private Player player;
         [Space]
         [SerializeField] private float speed = 8f;
@@ -112,7 +113,7 @@ public class PlayerMovementController : MonoBehaviour
                 float x = Input.GetAxis("Horizontal");
                 float z = Input.GetAxis("Vertical");
                 
-                Vector3 moveDirection = transform.right * x + transform.forward * z;
+                Vector3 moveDirection = camObj.right * x + camObj.forward * z;
 
                 _velocity.x = moveDirection.x;
                 _velocity.z = moveDirection.z;
