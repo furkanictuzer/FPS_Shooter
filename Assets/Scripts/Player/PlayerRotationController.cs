@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerRotationController : MonoBehaviour
@@ -14,15 +15,41 @@ public class PlayerRotationController : MonoBehaviour
     
     private float _xRotation;
     private float _yRotation;
+    
+    private bool _canRotate = false;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
+    
+    private void OnEnable()
+    {
+        EventManager.GameStarted += EnableRotate;
+        EventManager.LevelFailed += DisableRotate;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.GameStarted += EnableRotate;
+        EventManager.LevelFailed -= DisableRotate;
+    }
 
     private void Update()
     {
+        if (!_canRotate) return;
+        
         Rotate();
+    }
+    
+    public void EnableRotate()
+    {
+        _canRotate = true;
+    }
+
+    public void DisableRotate()
+    {
+        _canRotate = false;
     }
 
     private void Rotate()

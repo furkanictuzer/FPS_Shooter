@@ -1,26 +1,31 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public static class EventManager
 {
     public static event Action GameStarted;
-    public static event Action<int, int> MagazineReloaded;
     public static event Action<int, int> TotalBulletAmountChanged;
+    
+    public static event Action<int> TalentPointChanged;
 
+    public static event Action LevelFailed;
+    
     public static void OnGameStarted()
     {
         GameStarted?.Invoke();
-    }
-    
-    public static void OnMagazineReloaded(int bulletInMagazine, int spareBullet)
-    {
-        MagazineReloaded?.Invoke(bulletInMagazine, spareBullet);
     }
 
     public static void OnTotalBulletAmountChanged(int bulletInMagazine, int spareBullet)
     {
         TotalBulletAmountChanged?.Invoke(bulletInMagazine, spareBullet);
+    }
+
+    public static void OnTalentPointChanged(int point)
+    {
+        TalentPointChanged?.Invoke(point);
+    }
+
+    public static void OnLevelFailed()
+    {
+        LevelFailed?.Invoke();
     }
 }

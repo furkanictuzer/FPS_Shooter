@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Enemy : DamageableObject
 {
@@ -12,40 +9,41 @@ public class Enemy : DamageableObject
     
     private void Start()
     {
-        SetHpBar();
+        SetHp(maxHp);
     }
     
     private void OnEnable()
     {
         OnTakeDamage += SetHpBar;
         
-        OnDead += GiveXPs;
-        OnDead += OnThisDestroy;
+        OnDead += OnDeath;
     }
 
     private void OnDisable()
     {
         OnTakeDamage -= SetHpBar;
         
-        OnDead -= GiveXPs;
-        OnDead -= OnThisDestroy;
+        OnDead -= OnDeath;
     }
 
-    private void OnThisDestroy()
+    private void OnDeath()
     {
         LevelController.instance.AddKillScore();
-        enemyController.ChangeState(new DieState());
+        
+        enemyController.ChangeState(new DeadState());
+        
+        GiveXPs();
     }
 
     private void GiveXPs()
     {
-        LevelController.instance.CurrentPlayer.PlayerLevelController.EarnExperiencePoint(xpAwarded);
+        LevelController.instance.currentPlayer.PlayerLevelController.EarnExperiencePoint(xpAwarded);
     }
 
     private void SetHpBar()
     {
         float percent = (float)CurrentHp / maxHp;
 
-        barController.SetPercent(percent);
+        barController?.SetPercent(percent);
     }
 }

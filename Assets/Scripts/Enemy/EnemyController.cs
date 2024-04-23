@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -23,25 +21,23 @@ public class EnemyController : MonoBehaviour
     private IState _state;
 
     private Vector3 _velocity;
-    private Vector3 _lastPosition;
 
-    [SerializeField] private DamageableObject _chasedObject;
+    private DamageableObject _chasedObject;
 
     private StateType _stateType;
 
     private const float SearchingAngle = 60;
-    private const float CheckForTargetRadius = 4;
+    private const float CheckForTargetRadius = 7;
 
-    private const float MinimumAttackDistance = 2f;
+    private const float MinimumAttackDistance = 2.5f;
     
     private const float TargetDistance = 0.5f;
     private const float DestroyDelay = 1.5f;
-
-    private bool _canSeeTarget;
-    public EnemyAnimatorController EnemyAnimatorController => animatorController;
     
     public float speed = 5;
-    public bool isMoving;
+    
+    public EnemyAnimatorController EnemyAnimatorController => animatorController;
+    
     private void Awake()
     {
         _patrolController = GetComponentInParent<PatrolController>();
@@ -55,6 +51,12 @@ public class EnemyController : MonoBehaviour
         animatorController.SetWalkingConstant(speed / 2f);
         GetNewTargetPoint();
     }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, CheckForTargetRadius);
+    }
 
     private void Update()
     {
@@ -66,13 +68,7 @@ public class EnemyController : MonoBehaviour
         _stateType = stateType;
     }
     
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, CheckForTargetRadius);
-    }
-    
-    public void MoveTarget()
+    public void MoveToTarget()
     {
         if (!_shouldMove) return;
 
@@ -85,9 +81,6 @@ public class EnemyController : MonoBehaviour
 
         Vector3 direction = (target - transform.position).normalized;
 
-        float x = direction.x;
-        float z = direction.z;
-
         _velocity.x = direction.x;
         _velocity.z = direction.z;
                 
@@ -95,17 +88,6 @@ public class EnemyController : MonoBehaviour
         transform.rotation =
             Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z)),
                 Time.deltaTime * 10);
-                
-        if (_lastPosition != transform.position)
-        {
-            isMoving = true;
-        }
-        else
-        {
-            isMoving = false;
-        }
-
-        _lastPosition = transform.position;
 
         //Check For Touching Ground
         if (!groundController.IsGrounded)
@@ -113,8 +95,9 @@ public class EnemyController : MonoBehaviour
             Vector3 position = transform.position;
 
             position.y = groundController.groundPos.y;
+
+            transform.position = position;
         }
-        
         
         CheckDistanceWithPatrolPoint();
     }
@@ -156,13 +139,12 @@ public class EnemyController : MonoBehaviour
     public void CheckForTarget()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, CheckForTargetRadius, targetLayer);
-        
+
         if (colliders.Length != 0)
         {
             Transform target = colliders[0].transform;
             Vector3 directionToTarget = (target.position - transform.forward).normalized;
             float angleBetween = Vector3.Angle(directionToTarget, transform.position);
-            Debug.Log("Angle: "+angleBetween);
             
             if (angleBetween < SearchingAngle / 2)
             {
@@ -196,7 +178,6 @@ public class EnemyController : MonoBehaviour
     private void SetChasedObject(DamageableObject target)
     {
         _chasedObject = target;
-        _canSeeTarget = target != null;
     }
 
     public void CheckForAttack()
@@ -236,6 +217,4 @@ public class EnemyController : MonoBehaviour
         
         DestroyObject();
     }
-    
-
 }

@@ -20,7 +20,7 @@ public class PlayerFiringController : MonoBehaviour
     
     private Camera _mainCam;
 
-    private int _pierceShot = 2;
+    [SerializeField] private int _pierceShot = 1;
     public bool HasAmmo => gun.HasAmmo;
     public bool CanReload => gun.CanReload;
 
@@ -54,6 +54,11 @@ public class PlayerFiringController : MonoBehaviour
         _pierceShot = newPierceShot;
     }
 
+    public void SetAmmoCapacity(int newCapacity)
+    {
+        gun.SetMaxBullet(newCapacity);
+    }
+    
     public void Fire()
     {
         Vector3 origin = firingPoint.position;

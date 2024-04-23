@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,24 +7,33 @@ public class PatrolController : MonoBehaviour
     [SerializeField] private Enemy enemyPrefab;
 
     [SerializeField] private int patrolPointDistance = 3;
-    [SerializeField] private int patrolPointsCount = 3;
     [Space, SerializeField] private float spawnDelay = 1;
     private Enemy _spawnedEnemy;
 
     private void OnEnable()
     {
         EventManager.GameStarted += SpawnNewEnemy;
+        EventManager.LevelFailed += DestroyCurrentEnemy;
     }
     
     private void OnDisable()
     {
         EventManager.GameStarted -= SpawnNewEnemy;
+        EventManager.LevelFailed -= DestroyCurrentEnemy;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, patrolPointDistance);
+    }
+
+    private void DestroyCurrentEnemy()
+    {
+        if (_spawnedEnemy != null)
+        {
+            Destroy(_spawnedEnemy.gameObject);
+        }
     }
 
     public Vector3 GetRandomPatrolPoint()

@@ -9,19 +9,17 @@ public class WalkingState : IState
     {
         enemy.EnemyAnimatorController.PlayWalking();
         enemy.SetState(StateType.Walking);
-        Debug.Log("Entering Walking State.");
     }
 
     public void UpdateState(EnemyController enemy)
     {
-        enemy.MoveTarget();
+        enemy.MoveToTarget();
         enemy.CheckForTarget();
         enemy.CheckForAttack();
     }
 
     public void ExitState(EnemyController enemy)
     {
-        Debug.Log("Exiting Walking State.");
     }
     
 }

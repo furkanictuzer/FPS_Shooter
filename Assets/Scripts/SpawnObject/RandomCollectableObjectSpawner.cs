@@ -21,7 +21,7 @@ public class RandomCollectableObjectSpawner : CollectableObjectSpawner
         Gizmos.DrawWireSphere(transform.position, maxSpawnDistance);
     }
 
-    public override void SpawnObject()
+    protected override void SpawnObject()
     {
         Vector3 randPosition = GetRandomLocalPosition();
         int attempt = 1;

@@ -133,9 +133,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 100
   minHp: 0
-  initialHpPercent: 0.275
   playerInputController: {fileID: 1176405783869019703}
   playerMovementController: {fileID: 38985671941688641}
+  playerRotationController: {fileID: 2837230190724242926}
   groundController: {fileID: 1142096590953445202}
   playerFiringController: {fileID: 5477317440437675271}
   playerCollectController: {fileID: 5512761465365309329}
@@ -208,6 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadKeyCode: 114
   sprintKeyCode: 304
+  canGetInput: 1
 --- !u!114 &5512761465365309329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +286,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  groundPos: {x: 0, y: 0, z: 0}
   IsGrounded: 0
 --- !u!1 &5657360311691415977
 GameObject:

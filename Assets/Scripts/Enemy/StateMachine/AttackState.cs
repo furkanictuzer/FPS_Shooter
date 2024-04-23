@@ -8,7 +8,6 @@ public class AttackState : IState
     {
         enemy.EnemyAnimatorController.PlayAttack();
         enemy.SetState(StateType.Attack);
-        Debug.Log("Entering Attacking State.");
     }
 
     public void UpdateState(EnemyController enemy)
@@ -18,6 +17,6 @@ public class AttackState : IState
 
     public void ExitState(EnemyController enemy)
     {
-        Debug.Log("Exiting Attacking State.");
+        
     }
 }

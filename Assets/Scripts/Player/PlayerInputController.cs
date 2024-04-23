@@ -7,6 +7,8 @@ public class PlayerInputController : MonoBehaviour
 {
     [SerializeField] private KeyCode reloadKeyCode = KeyCode.R;
     [SerializeField] private KeyCode sprintKeyCode = KeyCode.LeftShift;
+
+    [SerializeField] private bool canGetInput = true;
     
     public event Action OnJumpPressed;
     public event Action OnReloadStarted;
@@ -18,6 +20,8 @@ public class PlayerInputController : MonoBehaviour
     
     private void Update()
     {
+        if (!canGetInput) return;
+        
         //Jump
         if (Input.GetButtonDown("Jump"))
         {
@@ -56,6 +60,16 @@ public class PlayerInputController : MonoBehaviour
             OnReloadStarted?.Invoke();
             Debug.Log("Reload");
         }
+    }
+
+    public void CloseInput()
+    {
+        canGetInput = false;
+    }
+
+    public void OpenInput()
+    {
+        canGetInput = true;
     }
 
     public void OnShootingStopped()

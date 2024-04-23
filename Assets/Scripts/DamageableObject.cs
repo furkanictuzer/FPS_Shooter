@@ -1,26 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DamageableObject : MonoBehaviour
 {
     [SerializeField] protected int maxHp = 100;
     [SerializeField] protected int minHp = 0;
-    [SerializeField,Range(0,1)] protected float initialHpPercent = 1;
     public int CurrentHp { get; private set; }
     
     public event Action OnTakeDamage;
-    public event Action HpAmountChanged;
+    public event Action HpPercentChanged;
     public event Action OnDead;
 
     public bool IsDead { get; private set; }
-
-    private void Awake()
-    {
-        CurrentHp = (int)(initialHpPercent * maxHp);
-    }
 
     public virtual void TakeDamage(int takenDamageAmount)
     {
@@ -40,9 +31,22 @@ public class DamageableObject : MonoBehaviour
         }
     }
 
+    public void SetHp(int newHp)
+    {
+        CurrentHp = Mathf.Clamp(newHp, 0, maxHp);
+        
+        CalculateHpPercent();
+        
+        HpPercentChanged?.Invoke();
+    }
+    
     public void SetMaxHealth(int newMaxHealth)
     {
         maxHp = newMaxHealth;
+        
+        CalculateHpPercent();
+        
+        HpPercentChanged?.Invoke();
     }
 
     public void Heal(int healedHp)
@@ -50,11 +54,15 @@ public class DamageableObject : MonoBehaviour
         AddHp(healedHp);
     }
 
+    private void CalculateHpPercent()
+    {
+    }
+
     private void AddHp(int amount)
     {
-        CurrentHp = Mathf.Clamp(CurrentHp + amount, minHp, maxHp);
+        SetHp(CurrentHp + amount);
         
-        HpAmountChanged?.Invoke();
+        HpPercentChanged?.Invoke();
     }
 
     private void Died()

@@ -11,7 +11,6 @@ public class IdleState : IState
     {
         enemy.EnemyAnimatorController.PlayIdle();
         enemy.SetState(StateType.Idle);
-        Debug.Log("Entering Idle State.");
     }
 
     public void UpdateState(EnemyController enemy)
@@ -30,6 +29,5 @@ public class IdleState : IState
     public void ExitState(EnemyController enemy)
     {
         _timer = 0;
-        Debug.Log("Exiting Idle State.");
     }
 }

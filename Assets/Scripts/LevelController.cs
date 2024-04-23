@@ -1,59 +1,72 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelController : Singleton<LevelController>
-{
-    [SerializeField] private Player playerPrefab;
+{ 
+    public Player currentPlayer;
 
-    public Player CurrentPlayer; //{ get; private set; }
-
+    [SerializeField] private int highScore;
+    
     [SerializeField] private int currentKillScore;
+    [Space]
+    [SerializeField] private int initialPlayerHp = 30;
     private void Start()
     {
         EventManager.OnGameStarted();
+        
+        UIManager.instance.SetKillScore(currentKillScore);
     }
 
     private void OnEnable()
     {
         EventManager.GameStarted += SetHighestKillScore;
+        EventManager.GameStarted += InitializePlayer;
     }
 
     private void OnDisable()
     {
         EventManager.GameStarted -= SetHighestKillScore;
+        EventManager.GameStarted += InitializePlayer;
     }
 
     public void AddKillScore(int amount = 1)
     {
         currentKillScore += amount;
+        UIManager.instance.SetKillScore(currentKillScore);
+
+        CheckHighScore(currentKillScore);
     }
 
-    public void SaveHighestKill(int killScore)
+    private void CheckHighScore(int killScore)
     {
-        UIManager.instance.SetHighestScore(killScore.ToString());
-        PlayerPrefs.SetInt("KillScore", killScore);
+        if (killScore > highScore)
+        {
+            SaveHighestKillScore(killScore);
+        }
+    }
+
+    private void SaveHighestKillScore(int killScore)
+    {
+        highScore = killScore;
+        UIManager.instance.SetHighestScore(highScore.ToString());
     }
 
     private void SetHighestKillScore()
     {
-        UIManager.instance.SetHighestScore(GetHighestKillScore().ToString());
+        UIManager.instance.SetHighestScore(highScore.ToString());
     }
     
-    public int GetHighestKillScore()
+    private void InitializePlayer()
     {
-        return PlayerPrefs.GetInt("KillScore");
+        currentPlayer.SetHp(initialPlayerHp);
+    }
+    
+    public void EnableInput()
+    {
+        currentPlayer.EnableInput();
     }
 
-    private void SpawnPlayer()
+    public void DisableInput()
     {
-        if (CurrentPlayer != null)
-        {
-            Destroy(CurrentPlayer.gameObject);
-            CurrentPlayer = null;
-        }
-
-        CurrentPlayer = Instantiate(playerPrefab.gameObject, transform.position, Quaternion.identity).GetComponent<Player>();
+        currentPlayer.DisableInput();
     }
 }

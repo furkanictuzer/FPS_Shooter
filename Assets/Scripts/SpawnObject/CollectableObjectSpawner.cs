@@ -24,20 +24,20 @@ public class CollectableObjectSpawner : MonoBehaviour
         SpawnObject(initialSpawnCount);
     }
 
-    public virtual void SpawnObject(int count)
+    protected virtual void SpawnObject(int count)
     {
         for (int i = 0; i < count; i++)
         {
             SpawnObject();
         }
     }
-    
-    public virtual void SpawnObject()
+
+    protected virtual void SpawnObject()
     {
         SpawnObject(spawnLocation.position);
     }
 
-    public void AddObject(CollectableObject obj)
+    private void AddObject(CollectableObject obj)
     {
         if (!spawnedObjects.Contains(obj))
         {

@@ -53,6 +53,8 @@ public class PlayerLevelController : MonoBehaviour
 
     private void LevelUp(int numberOfLevel = 1)
     {
+        TalentController.instance.AddTalentPoint();
+        
         _currentXPPoint -= NeededExpPoint;
         
         _currentLevel += numberOfLevel;
