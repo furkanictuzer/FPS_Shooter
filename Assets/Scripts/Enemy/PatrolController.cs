@@ -31,6 +31,8 @@ public class PatrolController : MonoBehaviour
     
     private void OnDisable()
     {
+        DestroyEnemy();
+        
         EventManager.GameStarted -= SpawnNewEnemy;
         EventManager.LevelFailed -= DestroyCurrentEnemy;
     }
@@ -70,10 +72,7 @@ public class PatrolController : MonoBehaviour
 
     private void SpawnNewEnemy()
     {
-        if (_spawnedEnemy != null)
-        {
-            Destroy(_spawnedEnemy);
-        }
+        DestroyEnemy();
 
         float randomRadius = Random.Range(0f, patrolPointDistance);
         float randAngle = Random.Range(0, 360) * Mathf.Deg2Rad;
@@ -84,6 +83,14 @@ public class PatrolController : MonoBehaviour
             .GetComponent<Enemy>();
 
         _spawnedEnemy = enemyObj;
+    }
+
+    private void DestroyEnemy()
+    {
+        if (_spawnedEnemy != null)
+        {
+            Destroy(_spawnedEnemy);
+        }
     }
 
     private IEnumerator SpawnEnemyCoroutine()

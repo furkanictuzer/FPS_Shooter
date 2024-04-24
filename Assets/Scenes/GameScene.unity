@@ -133,6 +133,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RedPatrolPoint (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1959287749020257948, guid: 3c7be7205fe200047939dad4b8ad0cc9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6562159830154492992, guid: 3c7be7205fe200047939dad4b8ad0cc9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -840,6 +845,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BluePatrolPoint (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3000779242587663426, guid: f69b64de487bf0449919f0307c332ad7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4650840105379334263, guid: f69b64de487bf0449919f0307c332ad7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -925,6 +935,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RedPatrolPoint (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1959287749020257948, guid: 3c7be7205fe200047939dad4b8ad0cc9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6562159830154492992, guid: 3c7be7205fe200047939dad4b8ad0cc9,
         type: 3}
@@ -1147,6 +1162,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BluePatrolPoint (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3000779242587663426, guid: f69b64de487bf0449919f0307c332ad7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4650840105379334263, guid: f69b64de487bf0449919f0307c332ad7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1239,6 +1259,7 @@ MonoBehaviour:
   highScore: 0
   currentKillScore: 0
   initialPlayerHp: 30
+  levelStarted: 0
 --- !u!4 &1524568325
 Transform:
   m_ObjectHideFlags: 0
@@ -1465,6 +1486,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RedPatrolPoint (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1959287749020257948, guid: 3c7be7205fe200047939dad4b8ad0cc9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6562159830154492992, guid: 3c7be7205fe200047939dad4b8ad0cc9,
         type: 3}
@@ -1950,6 +1976,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BluePatrolPoint (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000779242587663426, guid: f69b64de487bf0449919f0307c332ad7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4650840105379334263, guid: f69b64de487bf0449919f0307c332ad7,
         type: 3}
@@ -2762,6 +2793,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RedPatrolPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 1959287749020257948, guid: 3c7be7205fe200047939dad4b8ad0cc9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6562159830154492992, guid: 3c7be7205fe200047939dad4b8ad0cc9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2829,6 +2865,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BluePatrolPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000779242587663426, guid: f69b64de487bf0449919f0307c332ad7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4650840105379334263, guid: f69b64de487bf0449919f0307c332ad7,
         type: 3}

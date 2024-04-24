@@ -15,6 +15,7 @@ public class IdleState : IState
 
     public void UpdateState(EnemyController enemy)
     {
+        enemy.CheckForTarget();
         enemy.CheckForAttack();
         
         if (_timer < MaxIdleRemainingTime)
