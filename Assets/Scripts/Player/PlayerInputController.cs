@@ -34,13 +34,13 @@ public class PlayerInputController : MonoBehaviour
         }
         
         //Fire button down
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             ShootingStarted?.Invoke();
             Debug.Log("Firing Started");
         }
         //Fire button up
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             OnShootingStopped();
         }
