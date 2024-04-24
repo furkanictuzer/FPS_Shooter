@@ -4,6 +4,8 @@ using UnityEngine.Serialization;
 
 public class EnemyController : MonoBehaviour
 {
+    #region Properties
+
     [SerializeField] private GroundController groundController;
     [SerializeField] private Enemy enemy;
     [SerializeField] private EnemyAnimatorController animatorController;
@@ -37,7 +39,11 @@ public class EnemyController : MonoBehaviour
     public float speed = 5;
     
     public EnemyAnimatorController EnemyAnimatorController => animatorController;
-    
+
+    #endregion
+
+    #region Unity Events
+
     private void Awake()
     {
         _patrolController = GetComponentInParent<PatrolController>();
@@ -63,6 +69,11 @@ public class EnemyController : MonoBehaviour
         _state.UpdateState(this);
     }
     
+
+    #endregion
+
+    #region Methods
+
     public void SetState(StateType stateType)
     {
         _stateType = stateType;
@@ -217,4 +228,6 @@ public class EnemyController : MonoBehaviour
         
         DestroyObject();
     }
+
+    #endregion
 }

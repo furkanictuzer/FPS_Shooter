@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class LevelController : Singleton<LevelController>
-{ 
+{
+    #region Properties
+
     public Player currentPlayer;
 
     [SerializeField] private int highScore;
@@ -9,9 +11,17 @@ public class LevelController : Singleton<LevelController>
     [SerializeField] private int currentKillScore;
     [Space]
     [SerializeField] private int initialPlayerHp = 30;
+
+    public bool levelStarted;
+
+    #endregion
+
+    #region Unity Events
+
     private void Start()
     {
         EventManager.OnGameStarted();
+        LevelStarted();
         
         UIManager.instance.SetKillScore(currentKillScore);
     }
@@ -20,12 +30,38 @@ public class LevelController : Singleton<LevelController>
     {
         EventManager.GameStarted += SetHighestKillScore;
         EventManager.GameStarted += InitializePlayer;
+        EventManager.GameStarted += ResetKillScore;
+
+        EventManager.LevelFailed += LevelStopped;
     }
 
     private void OnDisable()
     {
         EventManager.GameStarted -= SetHighestKillScore;
-        EventManager.GameStarted += InitializePlayer;
+        EventManager.GameStarted -= InitializePlayer;
+        EventManager.GameStarted -= ResetKillScore;
+
+        EventManager.LevelFailed -= LevelStopped;
+    }
+
+    #endregion
+
+    #region Methods
+
+    private void ResetKillScore()
+    {
+        currentKillScore = 0;
+        UIManager.instance.SetKillScore(currentKillScore);
+    }
+    
+    private void LevelStarted()
+    {
+        levelStarted = true;
+    }
+
+    private void LevelStopped()
+    {
+        levelStarted = false;
     }
 
     public void AddKillScore(int amount = 1)
@@ -58,6 +94,7 @@ public class LevelController : Singleton<LevelController>
     private void InitializePlayer()
     {
         currentPlayer.SetHp(initialPlayerHp);
+        currentPlayer.ResetPlayer();
     }
     
     public void EnableInput()
@@ -69,4 +106,6 @@ public class LevelController : Singleton<LevelController>
     {
         currentPlayer.DisableInput();
     }
+
+    #endregion
 }

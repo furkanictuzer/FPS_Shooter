@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 
 public class PlayerLevelController : MonoBehaviour
 {
+    #region Properties
+
     [SerializeField] private Player player;
     [Space]
     [SerializeField] private PlayerLevelXPPointInfo levelXpPointInfo;
@@ -14,16 +16,25 @@ public class PlayerLevelController : MonoBehaviour
     public event Action ExperiencePointsEarned;
     public event Action<int> LevelIncreased;
     
-    [SerializeField] private int _currentLevel = 1;
-    [SerializeField] private int _currentXPPoint = 0;
-    private float xpPercent => (float) _currentXPPoint / NeededExpPoint;
+    private int _currentXpPoint = 0;
+    private float xpPercent => (float) _currentXpPoint / NeededExpPoint;
 
-    public int NeededExpPoint => levelXpPointInfo.GetNeededPoint(_currentLevel - 1);
+    private int NeededExpPoint => levelXpPointInfo.GetNeededPoint(CurrentLevel - 1);
+
+    public int CurrentLevel { get; private set; } = 1;
+
+    #endregion
+
+    #region Unity Events
 
     private void Start()
     {
-        UIManager.instance.SetPlayerXp(xpPercent, _currentLevel);
+        UIManager.instance.SetPlayerXp(xpPercent, CurrentLevel);
     }
+
+    #endregion
+
+    #region Methods
 
     public void SetPlayer(Player newPlayer)
     {
@@ -34,16 +45,16 @@ public class PlayerLevelController : MonoBehaviour
     {
         ExperiencePointsEarned?.Invoke();
         
-        _currentXPPoint += earnedPointAmount;
+        _currentXpPoint += earnedPointAmount;
 
         CheckLevelUp();
         
-        UIManager.instance.SetPlayerXp(xpPercent, _currentLevel);
+        UIManager.instance.SetPlayerXp(xpPercent, CurrentLevel);
     }
 
     private void CheckLevelUp()
     {
-        bool canLevelUp = _currentXPPoint >= NeededExpPoint;
+        bool canLevelUp = _currentXpPoint >= NeededExpPoint;
         
         if (canLevelUp)
         {
@@ -55,12 +66,16 @@ public class PlayerLevelController : MonoBehaviour
     {
         TalentController.instance.AddTalentPoint();
         
-        _currentXPPoint -= NeededExpPoint;
+        _currentXpPoint -= NeededExpPoint;
         
-        _currentLevel += numberOfLevel;
+        CurrentLevel += numberOfLevel;
         
-        LevelIncreased?.Invoke(_currentLevel);
+        LevelIncreased?.Invoke(CurrentLevel);
+        
+        EventManager.OnPlayerLevelUp(CurrentLevel);
         
         CheckLevelUp();
     }
+
+    #endregion
 }

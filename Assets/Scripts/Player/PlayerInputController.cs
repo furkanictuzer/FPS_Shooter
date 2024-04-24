@@ -9,7 +9,9 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private KeyCode sprintKeyCode = KeyCode.LeftShift;
 
     [SerializeField] private bool canGetInput = true;
-    
+
+    #region Events
+
     public event Action OnJumpPressed;
     public event Action OnReloadStarted;
     public event Action ShootingStarted;
@@ -17,6 +19,8 @@ public class PlayerInputController : MonoBehaviour
 
     public event Action OnSprintStarted;
     public event Action OnSprintStopped; 
+
+    #endregion
     
     private void Update()
     {
@@ -30,13 +34,13 @@ public class PlayerInputController : MonoBehaviour
         }
         
         //Fire button down
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetMouseButtonDown(0))
         {
             ShootingStarted?.Invoke();
             Debug.Log("Firing Started");
         }
         //Fire button up
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetMouseButtonDown(0))
         {
             OnShootingStopped();
         }

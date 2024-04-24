@@ -4,14 +4,27 @@ using Random = UnityEngine.Random;
 
 public class PatrolController : MonoBehaviour
 {
+    #region Properties
+
     [SerializeField] private Enemy enemyPrefab;
 
     [SerializeField] private int patrolPointDistance = 3;
+    
     [Space, SerializeField] private float spawnDelay = 1;
+    
     private Enemy _spawnedEnemy;
+
+    #endregion
+
+    #region Unity Events
 
     private void OnEnable()
     {
+        if (LevelController.instance != null && LevelController.instance.levelStarted)
+        {
+            SpawnNewEnemy();
+        }
+        
         EventManager.GameStarted += SpawnNewEnemy;
         EventManager.LevelFailed += DestroyCurrentEnemy;
     }
@@ -27,6 +40,10 @@ public class PatrolController : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, patrolPointDistance);
     }
+
+    #endregion
+
+    #region Methods
 
     private void DestroyCurrentEnemy()
     {
@@ -50,10 +67,20 @@ public class PatrolController : MonoBehaviour
     {
         StartCoroutine(SpawnEnemyCoroutine());
     }
-    
-    public void SpawnNewEnemy()
+
+    private void SpawnNewEnemy()
     {
-        Enemy enemyObj = Instantiate(enemyPrefab.gameObject, transform.position, Quaternion.identity, transform)
+        if (_spawnedEnemy != null)
+        {
+            Destroy(_spawnedEnemy);
+        }
+
+        float randomRadius = Random.Range(0f, patrolPointDistance);
+        float randAngle = Random.Range(0, 360) * Mathf.Deg2Rad;
+        Vector3 randPosition = randomRadius * new Vector3(Mathf.Cos(randAngle), 0, Mathf.Sin(randAngle)) +
+                               transform.position;
+        
+        Enemy enemyObj = Instantiate(enemyPrefab.gameObject, randPosition, Quaternion.identity, transform)
             .GetComponent<Enemy>();
 
         _spawnedEnemy = enemyObj;
@@ -62,6 +89,9 @@ public class PatrolController : MonoBehaviour
     private IEnumerator SpawnEnemyCoroutine()
     {
         yield return new WaitForSeconds(spawnDelay);
+        
         SpawnNewEnemy();
     }
+
+    #endregion
 }

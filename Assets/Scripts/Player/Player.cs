@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Player : DamageableObject
 {
+    #region Properties
+
     [SerializeField] private PlayerInputController playerInputController;
     [SerializeField] private PlayerMovementController playerMovementController;
     [SerializeField] private PlayerRotationController playerRotationController;
@@ -16,6 +18,10 @@ public class Player : DamageableObject
     public PlayerFiringController PlayerFiringController => playerFiringController;
     public PlayerCollectController PlayerCollectController => playerCollectController;
     public PlayerLevelController PlayerLevelController => playerLevelController;
+
+    #endregion
+
+    #region Unity Events
 
     private void Start()
     {
@@ -34,6 +40,10 @@ public class Player : DamageableObject
         OnDead -= Fail;
     }
 
+    #endregion
+
+    #region Methods
+
     private void Fail()
     {
         EventManager.OnLevelFailed();
@@ -44,6 +54,11 @@ public class Player : DamageableObject
         float percent = (float)CurrentHp / maxHp;
 
         UIManager.instance.SetPlayerHp(percent);
+    }
+
+    public void ResetPlayer()
+    {
+        IsDead = false;
     }
     
     public void EnableInput()
@@ -57,4 +72,6 @@ public class Player : DamageableObject
         PlayerMovementController.DisableMove();
         PlayerRotationController.DisableRotate();
     }
+
+    #endregion
 }

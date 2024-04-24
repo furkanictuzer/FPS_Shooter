@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class DamageableObject : MonoBehaviour
 {
+    #region Properties
+
     [SerializeField] protected int maxHp = 100;
     [SerializeField] protected int minHp = 0;
     public int CurrentHp { get; private set; }
@@ -11,7 +13,11 @@ public class DamageableObject : MonoBehaviour
     public event Action HpPercentChanged;
     public event Action OnDead;
 
-    public bool IsDead { get; private set; }
+    public bool IsDead { get; protected set; }
+
+    #endregion
+
+    #region Methods
 
     public virtual void TakeDamage(int takenDamageAmount)
     {
@@ -81,4 +87,6 @@ public class DamageableObject : MonoBehaviour
     {
         return CurrentHp <= minHp;
     }
+
+    #endregion
 }

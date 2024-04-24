@@ -5,7 +5,7 @@ using UnityEngine;
 public class IdleState : IState
 {
     private const float MaxIdleRemainingTime = 2;
-    public float _timer;
+    private float _timer;
     
     public void EnterState(EnemyController enemy)
     {
@@ -15,6 +15,8 @@ public class IdleState : IState
 
     public void UpdateState(EnemyController enemy)
     {
+        enemy.CheckForAttack();
+        
         if (_timer < MaxIdleRemainingTime)
         {
             _timer += Time.deltaTime;
