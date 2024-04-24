@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _DontDestroyOnLoad: 0
-  talentPoint: 10
+  talentPoint: 0
 --- !u!114 &1524568327
 MonoBehaviour:
   m_ObjectHideFlags: 0
